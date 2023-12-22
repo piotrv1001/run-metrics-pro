@@ -25,7 +25,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="p-4 lg:p-16">{children}</div>
         </ThemeProvider>
       </body>
     </html>
