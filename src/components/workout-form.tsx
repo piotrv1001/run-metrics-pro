@@ -60,7 +60,11 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
 
   return (
     <form action={handleSubmit} className="flex flex-col gap-y-8">
-      <div className="flex flex-row gap-x-4 items-center mt-8">
+      <div className="grid w-full items-center gap-2 mt-8">
+        <Label>Date</Label>
+        <DatePicker date={date} setDate={setDateFn} />
+      </div>
+      <div className="flex flex-row gap-x-4 items-center">
         <div className="w-1/2">
           <InputWithLabel
             label="Distance (km)"
@@ -92,10 +96,10 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
           />
         </div>
       </div>
-      <div className="grid w-full items-center gap-2">
+      {/* <div className="grid w-full items-center gap-2">
         <Label>Date</Label>
         <DatePicker date={date} setDate={setDateFn} />
-      </div>
+      </div> */}
       <div className="flex justify-end w-full mt-8 gap-x-2">
         <Button type="button" variant="outline" onClick={closeDialog}>
           Cancel

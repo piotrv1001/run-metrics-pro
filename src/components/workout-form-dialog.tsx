@@ -20,7 +20,7 @@ export default function WorkoutFormDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Create</Button>
+        <Button variant="default">Create</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
