@@ -18,3 +18,8 @@ export type Success = {
 
 // Discriminated union type
 export type ServerActionResponse = Error | Success;
+
+export type HoursMinutes = {
+  hours: number;
+  minutes: number;
+}

@@ -1,7 +1,6 @@
 import { fetchWorkouts } from "@/lib/data";
 import { Card, CardContent } from "@/components/ui/card";
 import WorkoutTable from "@/components/workout-table";
-import WorkoutForm from "@/components/workout-form";
 import WorkoutFormDialog from "@/components/workout-form-dialog";
 
 export default async function WorkoutsPage() {

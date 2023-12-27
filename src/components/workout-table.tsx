@@ -8,22 +8,73 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDate } from "@/lib/utils";
+import {
+  convertTimeToHoursMinutes,
+  formatDate,
+  padStart,
+  getDayOfWeek,
+} from "@/lib/utils";
+import {
+  CalendarIcon,
+  ClockIcon,
+  FlameIcon,
+  HeartIcon,
+  LucideIcon,
+  TrendingUpIcon,
+} from "lucide-react";
 
 type WorkoutTableProps = {
   workouts: Workout[];
 };
 
-const tableFields: {
+type TableField = {
   label: string;
+  headerIcon: LucideIcon;
   value: keyof Omit<Workout, "id" | "createdAt" | "updatedAt">;
-}[] = [
-  { label: "Date", value: "date" },
-  { label: "Duration", value: "time" },
-  { label: "Distance", value: "distance" },
-  { label: "Avg. heart rate", value: "averageHeartRate" },
-  { label: "Calories", value: "calories" },
+  prefix?: string;
+  suffix?: string;
+};
+
+const tableFields: TableField[] = [
+  { label: "Date", value: "date", headerIcon: CalendarIcon },
+  { label: "Duration", value: "time", headerIcon: ClockIcon },
+  {
+    label: "Distance",
+    value: "distance",
+    suffix: "km",
+    headerIcon: TrendingUpIcon,
+  },
+  {
+    label: "Avg. heart rate",
+    value: "averageHeartRate",
+    suffix: "bpm",
+    headerIcon: HeartIcon,
+  },
+  {
+    label: "Calories",
+    value: "calories",
+    suffix: "kcal",
+    headerIcon: FlameIcon,
+  },
 ];
+
+const getCellValue = (workout: Workout, field: TableField) => {
+  const value = workout[field.value];
+  if (field.prefix) {
+    return `${field.prefix} ${value}`;
+  }
+  if (field.suffix) {
+    return `${value} ${field.suffix}`;
+  }
+  if (field.value === "date") {
+    return formatDate(workout.date);
+  }
+  if (field.value === "time") {
+    const { hours, minutes } = convertTimeToHoursMinutes(workout.time);
+    return `${padStart(hours, 2, "0")}:${padStart(minutes, 2, "0")}`;
+  }
+  return value as number;
+};
 
 export default function WorkoutTable({ workouts }: WorkoutTableProps) {
   return (
@@ -34,7 +85,10 @@ export default function WorkoutTable({ workouts }: WorkoutTableProps) {
           <TableRow>
             {tableFields.map((field) => (
               <TableHead className="font-bold" key={field.value}>
-                {field.label}
+                <div className="flex gap-x-4 items-center">
+                  <span>{field.label}</span>
+                  <field.headerIcon size={16} />
+                </div>
               </TableHead>
             ))}
           </TableRow>
@@ -43,10 +97,17 @@ export default function WorkoutTable({ workouts }: WorkoutTableProps) {
           {workouts.map((workout) => (
             <TableRow key={workout.id}>
               {tableFields.map((field) => (
-                <TableCell key={field.value}>
-                  {field.value === "date"
-                    ? formatDate(workout.date)
-                    : workout[field.value] ?? "-"}
+                <TableCell key={field.value} className="py-8">
+                  {field.value === "date" ? (
+                    <div className="flex flex-col gap-y-1">
+                      <span className="text-lg">{getDayOfWeek(workout.date)}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {formatDate(workout.date)}
+                      </span>
+                    </div>
+                  ) : (
+                    getCellValue(workout, field)
+                  )}
                 </TableCell>
               ))}
             </TableRow>

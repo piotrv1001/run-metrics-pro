@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={inter.className}>
+      <body className={montserrat.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -26,6 +27,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="p-4 lg:p-16">{children}</div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
