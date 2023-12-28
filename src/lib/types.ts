@@ -4,7 +4,8 @@ export type WorkoutData = {
   averageHeartRate: number;
   calories: number;
   date: Date;
-}
+  workoutTypeId: number;
+};
 
 export type Error = {
   status: "error";
@@ -22,4 +23,4 @@ export type ServerActionResponse = Error | Success;
 export type HoursMinutes = {
   hours: number;
   minutes: number;
-}
+};

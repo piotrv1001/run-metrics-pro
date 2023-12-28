@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-export default function WorkoutTypeDropdownMenu() {
+export default function TableDropdownMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

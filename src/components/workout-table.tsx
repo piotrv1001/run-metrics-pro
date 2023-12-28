@@ -22,6 +22,7 @@ import {
   LucideIcon,
   TrendingUpIcon,
 } from "lucide-react";
+import TableDropdownMenu from "./table-dropdown-menu";
 
 type WorkoutTableProps = {
   workouts: Workout[];
@@ -91,6 +92,7 @@ export default function WorkoutTable({ workouts }: WorkoutTableProps) {
                 </div>
               </TableHead>
             ))}
+            <TableHead className="w-16" />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -100,7 +102,9 @@ export default function WorkoutTable({ workouts }: WorkoutTableProps) {
                 <TableCell key={field.value} className="py-6">
                   {field.value === "date" ? (
                     <div className="flex flex-col gap-y-1">
-                      <span className="text-lg">{getDayOfWeek(workout.date)}</span>
+                      <span className="text-lg">
+                        {getDayOfWeek(workout.date)}
+                      </span>
                       <span className="text-xs text-muted-foreground">
                         {formatDate(workout.date)}
                       </span>
@@ -110,6 +114,9 @@ export default function WorkoutTable({ workouts }: WorkoutTableProps) {
                   )}
                 </TableCell>
               ))}
+              <TableCell>
+                <TableDropdownMenu />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

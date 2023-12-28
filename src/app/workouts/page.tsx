@@ -1,4 +1,4 @@
-import { fetchWorkouts } from "@/lib/data";
+import { fetchWorkoutTypes, fetchWorkouts } from "@/lib/data";
 import {
   Card,
   CardContent,
@@ -11,6 +11,7 @@ import WorkoutFormDialog from "@/components/workout-form-dialog";
 
 export default async function WorkoutsPage() {
   const workouts = await fetchWorkouts();
+  const workoutTypes = await fetchWorkoutTypes();
   return (
     <>
       <h1 className="text-4xl font-bold mb-14">Workouts</h1>
@@ -22,7 +23,7 @@ export default async function WorkoutsPage() {
         <CardContent>
           <WorkoutTable workouts={workouts} />
           <div className="mt-8 text-end">
-            <WorkoutFormDialog />
+            <WorkoutFormDialog workoutTypes={workoutTypes} />
           </div>
         </CardContent>
       </Card>
