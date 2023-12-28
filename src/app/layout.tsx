@@ -34,7 +34,7 @@ export default function RootLayout({
               <aside className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[40] border-r">
                 <Sidebar />
               </aside>
-              <main className="md:pl-[314px] px-4">
+              <main className="md:pl-[314px] px-4 max-w-screen-2xl mx-auto">
                 <Navbar />
                 {children}
               </main>

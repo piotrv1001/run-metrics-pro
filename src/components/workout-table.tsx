@@ -97,7 +97,7 @@ export default function WorkoutTable({ workouts }: WorkoutTableProps) {
           {workouts.map((workout) => (
             <TableRow key={workout.id}>
               {tableFields.map((field) => (
-                <TableCell key={field.value} className="py-8">
+                <TableCell key={field.value} className="py-6">
                   {field.value === "date" ? (
                     <div className="flex flex-col gap-y-1">
                       <span className="text-lg">{getDayOfWeek(workout.date)}</span>

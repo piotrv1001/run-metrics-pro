@@ -8,8 +8,8 @@ export default function Navbar() {
       <MobileSidebar />
       <div className="flex w-full justify-end gap-x-4 items-center">
         <ThemeToggle />
-        <UserButton afterSignOutUrl="/" />
+          <UserButton afterSignOutUrl="/" />
       </div>
     </div>
-  )
+  );
 }
