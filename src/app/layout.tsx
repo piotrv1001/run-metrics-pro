@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -29,7 +30,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="h-full relative">
-            <aside className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[80] border-r">
+            <aside className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[40] border-r">
               <Sidebar />
             </aside>
             <main className="md:pl-[314px] p-4">

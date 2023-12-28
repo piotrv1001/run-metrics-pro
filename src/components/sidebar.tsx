@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart4, LayoutDashboard, MessageSquare } from "lucide-react";
+import { BarChart4, DatabaseIcon, LayoutDashboard } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +18,12 @@ const routes = [
     icon: BarChart4,
     href: "/workouts",
     color: "text-emerald-500",
+  },
+  {
+    label: "Workout types",
+    icon: DatabaseIcon,
+    href: "/categories",
+    color: "text-purple-500",
   },
 ];
 
@@ -38,9 +44,9 @@ export default function Sidebar() {
               key={route.href}
               href={route.href}
               className={cn(
-                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
+                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-accent-foreground hover:bg-accent rounded-lg transition",
                 pathName === route.href
-                  ? "text-white bg-white/10"
+                  ? "text-accent-foreground bg-accent"
                   : "text-zinc-400"
               )}
             >
