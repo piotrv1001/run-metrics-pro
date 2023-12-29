@@ -1,6 +1,5 @@
 import Chart from "@/components/chart";
 import DashboardCard from "@/components/dashboard-card";
-import RecentWorkoutItem from "@/components/recent-workout-item";
 import {
   Card,
   CardContent,
@@ -20,7 +19,7 @@ import {
 
 const tableFields: TableField[] = [
   { label: "Date", value: "date" },
-  { label: "Type", value: "workoutType" },
+  { label: "Type", value: "workoutType", className: "hidden sm:table-cell" },
   { label: "Duration", value: "time" },
   {
     label: "Distance",
@@ -74,7 +73,7 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-4 lg:col-span-3">
           <Card>
             <CardHeader>
               <CardTitle>Recent workouts</CardTitle>
@@ -88,11 +87,6 @@ export default async function DashboardPage() {
                 hideHeader={true}
                 hideDropdownMenu={true}
               />
-              {/* <div className="space-y-8">
-                {recentWorkouts.map((workout) => (
-                  <RecentWorkoutItem key={workout.id} workout={workout} />
-                ))}
-              </div> */}
             </CardContent>
           </Card>
         </div>

@@ -87,7 +87,7 @@ export default function WorkoutTypeForm({ closeDialog }: WorkoutTypeFormProps) {
         <Button type="button" variant="outline" onClick={closeDialog}>
           Cancel
         </Button>
-        <Button type="submit" disabled={!color}>
+        <Button type="submit" disabled={!color || !name}>
           Create
         </Button>
       </div>

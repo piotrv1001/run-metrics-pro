@@ -7,6 +7,7 @@ export function useToastHandler() {
     console.error(msg);
     toast({
       title: "Error",
+      variant: "error",
       description: msg,
     });
   };
@@ -14,6 +15,7 @@ export function useToastHandler() {
   const handleSuccess = (msg: string) => {
     toast({
       title: "Success",
+      variant: "success",
       description: msg,
     });
   };

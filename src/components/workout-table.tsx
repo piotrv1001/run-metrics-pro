@@ -82,7 +82,7 @@ export default function WorkoutTable({
         <TableBody>
           {workouts.map((workout) => (
             <TableRow key={workout.id}>
-              <TableCell className="w-4 h-[93px]">
+              <TableCell className="w-4 h-[88px]">
                 <ColorVerticalLine color={workout.workoutType.color} />
               </TableCell>
               {tableFields.map((field) => (

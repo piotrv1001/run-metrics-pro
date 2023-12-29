@@ -1,11 +1,4 @@
 import { fetchWorkoutsWithType } from "@/lib/data";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import WorkoutTable from "@/components/workout-table";
 import WorkoutFormDialog from "@/components/workout-form-dialog";
 import { TableField } from "@/lib/types";
@@ -50,25 +43,17 @@ export default async function WorkoutsPage() {
   return (
     <>
       <h1 className="text-4xl font-bold mb-14">Workouts</h1>
-      <Card className="p-2 md:p-4 w-full">
-        <CardHeader>
-          <CardTitle>Your workouts</CardTitle>
-          <CardDescription>A list of all your running sessions</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="hidden lg:block">
-            <WorkoutTable workouts={workouts} tableFields={tableFields} />
-          </div>
-          <div className="lg:hidden flex flex-col gap-y-4">
-            {workouts.map((workout) => (
-              <MobileTableCard key={workout.id} workout={workout} />
-            ))}
-          </div>
-          <div className="mt-8 text-end">
-            <WorkoutFormDialog />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="hidden lg:block">
+        <WorkoutTable workouts={workouts} tableFields={tableFields} />
+      </div>
+      <div className="lg:hidden flex flex-col gap-y-4">
+        {workouts.map((workout) => (
+          <MobileTableCard key={workout.id} workout={workout} />
+        ))}
+      </div>
+      <div className="mt-8 text-end">
+        <WorkoutFormDialog />
+      </div>
     </>
   );
 }
