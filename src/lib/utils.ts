@@ -50,4 +50,8 @@ export const colorVariants: { [key in Color]: string } = {
   GRAY: "bg-gray-400 shadow-gray-400",
   PINK: "bg-pink-400 shadow-pink-400",
   LIME: "bg-lime-400 shadow-lime-400",
+  ORANGE: "bg-orange-400 shadow-orange-400",
+  CYAN: "bg-cyan-400 shadow-cyan-400",
+  TEAL: "bg-teal-400 shadow-teal-400",
+  ROSE: "bg-rose-400 shadow-rose-400",
 };

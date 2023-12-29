@@ -43,4 +43,8 @@ enum Color {
   GRAY
   PINK
   LIME
+  ORANGE
+  CYAN
+  TEAL
+  ROSE
 }
