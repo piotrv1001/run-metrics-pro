@@ -1,9 +1,20 @@
 import { Workout, WorkoutType } from "@prisma/client";
 import prisma from "./db";
-import { WorkoutData } from "./types";
+import { WorkoutData, WorkoutWithType } from "./types";
 
 export async function fetchWorkouts(): Promise<Workout[]> {
-  const workouts = await prisma.workout.findMany();
+  const workouts = await prisma.workout.findMany({
+    orderBy: { date: "desc" },
+  });
+  return workouts;
+}
+
+export async function fetchWorkoutsWithType(limit?: number): Promise<WorkoutWithType[]> {
+  const workouts = await prisma.workout.findMany({
+    include: { workoutType: true },
+    orderBy: { date: "desc" },
+    take: limit,
+  });
   return workouts;
 }
 

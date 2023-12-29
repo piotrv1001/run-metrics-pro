@@ -1,7 +1,7 @@
 "use client";
 
 import { submitWorkoutForm } from "@/lib/actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
@@ -13,21 +13,27 @@ import WorkoutTypeSelect from "./workout-type-select";
 import { WorkoutType } from "@prisma/client";
 
 type WorkoutFormProps = {
-  workoutTypes: WorkoutType[];
   closeDialog: () => void;
 };
 
-export default function WorkoutForm({
-  closeDialog,
-  workoutTypes,
-}: WorkoutFormProps) {
+export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
   const [distance, setDistance] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [averageHeartRate, setAverageHeartRate] = useState(0);
   const [calories, setCalories] = useState(0);
   const [date, setDate] = useState<Date>(new Date());
+  const [workoutTypes, setWorkoutTypes] = useState<WorkoutType[]>([]);
   const [workoutType, setWorkoutType] = useState<WorkoutType | null>(null);
+
+  useEffect(() => {
+    const fetchWorkoutTypes = async () => {
+      const res = await fetch("/api/workout-type");
+      const data = await res.json();
+      setWorkoutTypes(data);
+    }
+    fetchWorkoutTypes();
+  }, []);
 
   const { toast } = useToast();
 

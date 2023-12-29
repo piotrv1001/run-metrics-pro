@@ -25,20 +25,23 @@ export default function WorkoutTypeSelect({
   };
 
   return (
-    <Select
-      defaultValue={workoutTypes[0].name}
-      onValueChange={handleValueChange}
-    >
+    <Select onValueChange={handleValueChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select workout type" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {workoutTypes.map((workoutType) => (
-            <SelectItem key={workoutType.id} value={workoutType.name}>
-              {workoutType.name}
+          {workoutTypes.length > 0 ? (
+            workoutTypes.map((workoutType) => (
+              <SelectItem key={workoutType.id} value={workoutType.name}>
+                {workoutType.name}
+              </SelectItem>
+            ))
+          ) : (
+            <SelectItem disabled value="loading">
+              Loading...
             </SelectItem>
-          ))}
+          )}
         </SelectGroup>
       </SelectContent>
     </Select>

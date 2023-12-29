@@ -1,3 +1,5 @@
+import { Workout, WorkoutType } from "@prisma/client";
+
 export type WorkoutData = {
   distance: number;
   time: number;
@@ -5,6 +7,10 @@ export type WorkoutData = {
   calories: number;
   date: Date;
   workoutTypeId: number;
+};
+
+export type WorkoutWithType = Workout & {
+  workoutType: WorkoutType;
 };
 
 export type Error = {

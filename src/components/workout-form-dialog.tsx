@@ -11,15 +11,8 @@ import {
 import { Button } from "./ui/button";
 import WorkoutForm from "./workout-form";
 import { useState } from "react";
-import { WorkoutType } from "@prisma/client";
 
-type WorkoutFormDialogProps = {
-  workoutTypes: WorkoutType[];
-};
-
-export default function WorkoutFormDialog({
-  workoutTypes,
-}: WorkoutFormDialogProps) {
+export default function WorkoutFormDialog() {
   const [open, setOpen] = useState(false);
   const closeDialog = () => {
     setOpen(false);
@@ -34,7 +27,7 @@ export default function WorkoutFormDialog({
           <DialogTitle>Create workout</DialogTitle>
           <DialogDescription>Add a new workout here</DialogDescription>
         </DialogHeader>
-        <WorkoutForm closeDialog={closeDialog} workoutTypes={workoutTypes} />
+        <WorkoutForm closeDialog={closeDialog} />
       </DialogContent>
     </Dialog>
   );
