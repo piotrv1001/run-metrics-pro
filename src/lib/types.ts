@@ -42,6 +42,7 @@ export type HoursMinutes = {
 export type TableField = {
   label: string;
   value: keyof WorkoutWithType;
+  className?: string;
   headerIcon?: LucideIcon;
   prefix?: string;
   suffix?: string;

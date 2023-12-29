@@ -70,15 +70,18 @@ export default function WorkoutTypeForm({ closeDialog }: WorkoutTypeFormProps) {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-6 grid-rows-2 gap-x-4 gap-y-4">
-        {Object.values(Color).map((currentColor) => (
-          <ColorCircle
-            key={currentColor}
-            color={currentColor}
-            setSelected={setSelected}
-            selected={currentColor === color}
-          />
-        ))}
+      <div className="flex flex-col gap-2">
+        <Label>Color</Label>
+        <div className="grid grid-cols-6 grid-rows-2 gap-x-4 gap-y-4">
+          {Object.values(Color).map((currentColor) => (
+            <ColorCircle
+              key={currentColor}
+              color={currentColor}
+              setSelected={setSelected}
+              selected={currentColor === color}
+            />
+          ))}
+        </div>
       </div>
       <div className="flex justify-end w-full mt-8 gap-x-2">
         <Button type="button" variant="outline" onClick={closeDialog}>

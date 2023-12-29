@@ -12,6 +12,7 @@ import {
   formatDate,
   padStart,
   getDayOfWeek,
+  cn,
 } from "@/lib/utils";
 import TableDropdownMenu from "./table-dropdown-menu";
 import { TableField, WorkoutWithType } from "@/lib/types";
@@ -64,7 +65,10 @@ export default function WorkoutTable({
             <TableRow>
               {hideDropdownMenu !== true && <TableHead className="w-4" />}
               {tableFields.map((field) => (
-                <TableHead className="font-bold" key={field.value}>
+                <TableHead
+                  className={cn("font-bold", field.className)}
+                  key={field.value}
+                >
                   <div className="flex gap-x-4 items-center">
                     <span>{field.label}</span>
                     {field.headerIcon && <field.headerIcon size={16} />}
@@ -82,13 +86,16 @@ export default function WorkoutTable({
                 <ColorVerticalLine color={workout.workoutType.color} />
               </TableCell>
               {tableFields.map((field) => (
-                <TableCell key={field.value} className="py-6">
+                <TableCell
+                  key={field.value}
+                  className={cn("py-6", field.className)}
+                >
                   {field.value === "date" ? (
                     <div className="flex flex-col gap-y-1">
                       <span className="font-medium">
                         {getDayOfWeek(workout.date)}
                       </span>
-                      <span className="text-muted-foreground">
+                      <span className="text-muted-foreground text-xs">
                         {formatDate(workout.date)}
                       </span>
                     </div>
