@@ -4,13 +4,13 @@ import { submitWorkoutForm } from "@/lib/actions";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
-import { useToast } from "./ui/use-toast";
 import { convertHoursMinutesToTime } from "@/lib/utils";
 import InputWithLabel from "./input-with-label";
 import { Label } from "./ui/label";
 import DatePicker from "./date-picker";
 import WorkoutTypeSelect from "./workout-type-select";
 import { WorkoutType } from "@prisma/client";
+import { useToastHandler } from "@/lib/hooks";
 
 type WorkoutFormProps = {
   closeDialog: () => void;
@@ -26,6 +26,8 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
   const [workoutTypes, setWorkoutTypes] = useState<WorkoutType[]>([]);
   const [workoutType, setWorkoutType] = useState<WorkoutType | null>(null);
 
+  const { handleError, handleSuccess } = useToastHandler();
+
   useEffect(() => {
     const fetchWorkoutTypes = async () => {
       const res = await fetch("/api/workout-type");
@@ -34,8 +36,6 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
     }
     fetchWorkoutTypes();
   }, []);
-
-  const { toast } = useToast();
 
   const setDateFn = (date?: Date) => {
     if (date) {
@@ -47,21 +47,6 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
     if (workoutType) {
       setWorkoutType(workoutType);
     }
-  };
-
-  const handleError = (msg: string) => {
-    console.error(msg);
-    toast({
-      title: "Error",
-      description: msg,
-    });
-  };
-
-  const handleSuccess = (msg: string) => {
-    toast({
-      title: "Success",
-      description: msg,
-    });
   };
 
   const handleSubmit = async () => {

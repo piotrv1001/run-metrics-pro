@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import WorkoutTypeCard from "@/components/workout-type-card";
+import WorkoutTypeFormDialog from "@/components/workout-type-form-dialog";
 import prisma from "@/lib/db";
 
 export default async function CategoriesPage() {
@@ -13,7 +13,7 @@ export default async function CategoriesPage() {
         ))}
       </div>
       <div className="mt-8 text-end">
-        <Button>Create</Button>
+        <WorkoutTypeFormDialog />
       </div>
     </>
   );

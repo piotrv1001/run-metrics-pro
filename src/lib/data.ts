@@ -1,6 +1,6 @@
 import { Workout, WorkoutType } from "@prisma/client";
 import prisma from "./db";
-import { WorkoutData, WorkoutWithType } from "./types";
+import { WorkoutData, WorkoutTypeData, WorkoutWithType } from "./types";
 
 export async function fetchWorkouts(): Promise<Workout[]> {
   const workouts = await prisma.workout.findMany({
@@ -51,4 +51,9 @@ export async function deleteWorkout(id: number): Promise<Workout> {
 export async function fetchWorkoutTypes(): Promise<WorkoutType[]> {
   const workoutTypes = await prisma.workoutType.findMany();
   return workoutTypes;
+}
+
+export async function createWorkoutType(data: WorkoutTypeData): Promise<WorkoutType> {
+  const workoutType = await prisma.workoutType.create({ data });
+  return workoutType;
 }

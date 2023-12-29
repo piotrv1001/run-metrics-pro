@@ -9,7 +9,7 @@ export default function ColorVerticalLine({ color }: ColorVerticalLineProps) {
   return (
     <div
       className={cn(
-        "h-full w-[4px] rounded-sm shadow-md shadow-blue-400",
+        "h-full w-[4px] rounded-sm shadow-md",
         bgClassName
       )}
     ></div>

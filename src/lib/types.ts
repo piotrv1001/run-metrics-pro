@@ -1,4 +1,4 @@
-import { Workout, WorkoutType } from "@prisma/client";
+import { Color, Workout, WorkoutType } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 
 export type WorkoutData = {
@@ -9,6 +9,13 @@ export type WorkoutData = {
   date: Date;
   workoutTypeId: number;
 };
+
+export type WorkoutTypeData = {
+  name: string;
+  minHeartRate: number;
+  maxHeartRate: number;
+  color: Color;
+}
 
 export type WorkoutWithType = Workout & {
   workoutType: WorkoutType;

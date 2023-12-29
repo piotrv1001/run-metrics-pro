@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createWorkout } from "./data";
-import { ServerActionResponse, WorkoutData } from "./types";
+import { createWorkout, createWorkoutType } from "./data";
+import { ServerActionResponse, WorkoutData, WorkoutTypeData } from "./types";
 
 export const submitWorkoutForm: (
   workoutData: WorkoutData
@@ -10,6 +10,19 @@ export const submitWorkoutForm: (
   try {
     const data = await createWorkout(workoutData);
     revalidatePath("/workouts");
+    return { status: "success", data };
+  } catch(error) {
+    console.error(error);
+    return { status: "error", message: "Something went wrong" };
+  }
+};
+
+export const submitWorkoutTypeForm: (
+  workoutData: WorkoutTypeData
+) => Promise<ServerActionResponse> = async (workoutData: WorkoutTypeData) => {
+  try {
+    const data = await createWorkoutType(workoutData);
+    revalidatePath("/categories");
     return { status: "success", data };
   } catch(error) {
     console.error(error);
