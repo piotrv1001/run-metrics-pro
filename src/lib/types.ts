@@ -1,4 +1,5 @@
 import { Workout, WorkoutType } from "@prisma/client";
+import { LucideIcon } from "lucide-react";
 
 export type WorkoutData = {
   distance: number;
@@ -29,4 +30,12 @@ export type ServerActionResponse = Error | Success;
 export type HoursMinutes = {
   hours: number;
   minutes: number;
+};
+
+export type TableField = {
+  label: string;
+  value: keyof WorkoutWithType;
+  headerIcon?: LucideIcon;
+  prefix?: string;
+  suffix?: string;
 };

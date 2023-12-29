@@ -36,7 +36,7 @@ const data = [
 
 export default function Chart() {
   return (
-    <ResponsiveContainer width="100%" height={318}>
+    <ResponsiveContainer width="100%" height={465}>
       <BarChart data={data}>
         <XAxis
           dataKey="name"

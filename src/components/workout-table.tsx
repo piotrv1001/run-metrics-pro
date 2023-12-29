@@ -13,54 +13,17 @@ import {
   padStart,
   getDayOfWeek,
 } from "@/lib/utils";
-import {
-  CalendarIcon,
-  ClockIcon,
-  DatabaseIcon,
-  FlameIcon,
-  HeartIcon,
-  LucideIcon,
-  TrendingUpIcon,
-} from "lucide-react";
 import TableDropdownMenu from "./table-dropdown-menu";
-import { WorkoutWithType } from "@/lib/types";
+import { TableField, WorkoutWithType } from "@/lib/types";
 import ColorVerticalLine from "./color-vertical-line";
 
 type WorkoutTableProps = {
   workouts: WorkoutWithType[];
+  tableFields: TableField[];
+  hideHeader?: boolean;
+  hideCaption?: boolean;
+  hideDropdownMenu?: boolean;
 };
-
-type TableField = {
-  label: string;
-  headerIcon: LucideIcon;
-  value: keyof WorkoutWithType;
-  prefix?: string;
-  suffix?: string;
-};
-
-const tableFields: TableField[] = [
-  { label: "Date", value: "date", headerIcon: CalendarIcon },
-  { label: "Type", value: "workoutType", headerIcon: DatabaseIcon },
-  { label: "Duration", value: "time", headerIcon: ClockIcon },
-  {
-    label: "Distance",
-    value: "distance",
-    suffix: "km",
-    headerIcon: TrendingUpIcon,
-  },
-  {
-    label: "Avg. heart rate",
-    value: "averageHeartRate",
-    suffix: "bpm",
-    headerIcon: HeartIcon,
-  },
-  {
-    label: "Calories",
-    value: "calories",
-    suffix: "kcal",
-    headerIcon: FlameIcon,
-  },
-];
 
 const getCellValue = (workout: WorkoutWithType, field: TableField) => {
   const value = workout[field.value];
@@ -83,25 +46,35 @@ const getCellValue = (workout: WorkoutWithType, field: TableField) => {
   return value as number;
 };
 
-export default function WorkoutTable({ workouts }: WorkoutTableProps) {
+export default function WorkoutTable({
+  workouts,
+  tableFields,
+  hideHeader,
+  hideCaption,
+  hideDropdownMenu,
+}: WorkoutTableProps) {
   return (
     <div className="rounded-lg border overflow-hidden">
       <Table>
-        <TableCaption className="my-4">A list of your workouts</TableCaption>
-        <TableHeader className="bg-muted">
-          <TableRow>
-            <TableHead className="w-4" />
-            {tableFields.map((field) => (
-              <TableHead className="font-bold" key={field.value}>
-                <div className="flex gap-x-4 items-center">
-                  <span>{field.label}</span>
-                  <field.headerIcon size={16} />
-                </div>
-              </TableHead>
-            ))}
-            <TableHead className="w-16" />
-          </TableRow>
-        </TableHeader>
+        {hideCaption !== true && (
+          <TableCaption className="my-4">A list of your workouts</TableCaption>
+        )}
+        {hideHeader !== true && (
+          <TableHeader className="bg-muted">
+            <TableRow>
+              {hideDropdownMenu !== true && <TableHead className="w-4" />}
+              {tableFields.map((field) => (
+                <TableHead className="font-bold" key={field.value}>
+                  <div className="flex gap-x-4 items-center">
+                    <span>{field.label}</span>
+                    {field.headerIcon && <field.headerIcon size={16} />}
+                  </div>
+                </TableHead>
+              ))}
+              <TableHead className="w-16" />
+            </TableRow>
+          </TableHeader>
+        )}
         <TableBody>
           {workouts.map((workout) => (
             <TableRow key={workout.id}>
@@ -124,9 +97,11 @@ export default function WorkoutTable({ workouts }: WorkoutTableProps) {
                   )}
                 </TableCell>
               ))}
-              <TableCell>
-                <TableDropdownMenu />
-              </TableCell>
+              {hideDropdownMenu !== true && (
+                <TableCell>
+                  <TableDropdownMenu />
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

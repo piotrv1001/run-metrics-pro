@@ -8,13 +8,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import WorkoutTable from "@/components/workout-table";
 import { fetchWorkoutsWithType } from "@/lib/data";
+import { TableField } from "@/lib/types";
 import {
   CheckCircleIcon,
   ClockIcon,
   FlameIcon,
   TrendingUpIcon,
 } from "lucide-react";
+
+const tableFields: TableField[] = [
+  { label: "Date", value: "date" },
+  { label: "Type", value: "workoutType" },
+  { label: "Duration", value: "time" },
+  {
+    label: "Distance",
+    value: "distance",
+    suffix: "km",
+  },
+];
 
 export default async function DashboardPage() {
   const recentWorkouts = await fetchWorkoutsWithType(5);
@@ -68,11 +81,18 @@ export default async function DashboardPage() {
               <CardDescription>Your last 5 running sessions</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-8">
+              <WorkoutTable
+                workouts={recentWorkouts}
+                tableFields={tableFields}
+                hideCaption={true}
+                hideHeader={true}
+                hideDropdownMenu={true}
+              />
+              {/* <div className="space-y-8">
                 {recentWorkouts.map((workout) => (
                   <RecentWorkoutItem key={workout.id} workout={workout} />
                 ))}
-              </div>
+              </div> */}
             </CardContent>
           </Card>
         </div>
