@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { fetchWorkoutsWithType } from "@/lib/data";
 import {
   CheckCircleIcon,
   ClockIcon,
@@ -15,7 +16,8 @@ import {
   TrendingUpIcon,
 } from "lucide-react";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const recentWorkouts = await fetchWorkoutsWithType(5);
   return (
     <>
       <h1 className="text-4xl font-bold mb-14">Dashboard</h1>
@@ -50,7 +52,9 @@ export default function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Progress</CardTitle>
-              <CardDescription>Your progress over the last 7 days</CardDescription>
+              <CardDescription>
+                Your progress over the last 7 days
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Chart />
@@ -65,31 +69,9 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-8">
-                <RecentWorkoutItem
-                  dayOfWeek="Tuesday"
-                  formattedDate="27-12-2023"
-                  distance={14}
-                />
-                <RecentWorkoutItem
-                  dayOfWeek="Thursday"
-                  formattedDate="29-12-2023"
-                  distance={14}
-                />
-                <RecentWorkoutItem
-                  dayOfWeek="Saturday"
-                  formattedDate="31-12-2023"
-                  distance={12}
-                />
-                <RecentWorkoutItem
-                  dayOfWeek="Saturday"
-                  formattedDate="31-12-2023"
-                  distance={12}
-                />
-                <RecentWorkoutItem
-                  dayOfWeek="Saturday"
-                  formattedDate="31-12-2023"
-                  distance={12}
-                />
+                {recentWorkouts.map((workout) => (
+                  <RecentWorkoutItem key={workout.id} workout={workout} />
+                ))}
               </div>
             </CardContent>
           </Card>

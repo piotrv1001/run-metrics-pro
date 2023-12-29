@@ -1,26 +1,32 @@
-import { CalendarIcon } from "lucide-react";
+import { convertTimeToHoursMinutes, formatDate, getDayOfWeek, padStart } from "@/lib/utils";
+import ColorVerticalLine from "./color-vertical-line";
+import { WorkoutWithType } from "@/lib/types";
 
 type RecentWorkoutItemProps = {
-  dayOfWeek: string;
-  formattedDate: string;
-  distance: number;
+  workout: WorkoutWithType;
 };
 
-export default function RecentWorkoutItem({
-  dayOfWeek,
-  formattedDate,
-  distance,
-}: RecentWorkoutItemProps) {
+export default function RecentWorkoutItem({ workout }: RecentWorkoutItemProps) {
+  const { hours, minutes } = convertTimeToHoursMinutes(workout.time);
+  const time = `${padStart(hours, 2, "0")}:${padStart(minutes, 2, "0")}`
   return (
-    <div className="flex items-center">
-      <span className="w-9 h-9">
-        <CalendarIcon />
-      </span>
-      <div className="ml-4 space-y-1">
-        <p className="text-sm font-medium leading-none">{dayOfWeek}</p>
-        <p className="text-sm text-muted-foreground">{formattedDate}</p>
+    <div className="flex items-center justify-between">
+      <div className="flex gap-x-4">
+        <div className="h-[38px]">
+          <ColorVerticalLine color={workout.workoutType.color} />
+        </div>
+        <div className="space-y-1">
+          <p className="text-sm font-medium leading-none">
+            {getDayOfWeek(workout.date)}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {formatDate(workout.date)}
+          </p>
+        </div>
       </div>
-      <div className="ml-auto font-medium">{distance} km</div>
+      <div className="font-medium">{workout.workoutType.name}</div>
+      <div className="font-medium">{time}</div>
+      <div className="font-medium">{workout.distance} km</div>
     </div>
   );
 }
