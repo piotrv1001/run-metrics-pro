@@ -14,9 +14,9 @@ import {
   getDayOfWeek,
   cn,
 } from "@/lib/utils";
-import TableDropdownMenu from "./table-dropdown-menu";
 import { TableField, WorkoutWithType } from "@/lib/types";
 import ColorVerticalLine from "./color-vertical-line";
+import WorkoutDropdownMenu from "./workout-dropdown-menu";
 
 type WorkoutTableProps = {
   workouts: WorkoutWithType[];
@@ -106,7 +106,7 @@ export default function WorkoutTable({
               ))}
               {hideDropdownMenu !== true && (
                 <TableCell>
-                  <TableDropdownMenu />
+                  <WorkoutDropdownMenu workout={workout} />
                 </TableCell>
               )}
             </TableRow>

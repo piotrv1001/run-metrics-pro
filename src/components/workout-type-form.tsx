@@ -51,6 +51,7 @@ export default function WorkoutTypeForm({ closeDialog }: WorkoutTypeFormProps) {
       <div className="flex flex-row gap-x-4 items-center">
         <div className="w-1/2">
           <InputWithLabel
+            value={name}
             label="Name"
             onChange={(e) => setName(e.target.value)}
           />

@@ -1,22 +1,32 @@
 "use client";
 
-import { submitWorkoutForm } from "@/lib/actions";
+import { submitWorkoutEditForm, submitWorkoutForm } from "@/lib/actions";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
-import { convertHoursMinutesToTime } from "@/lib/utils";
+import {
+  convertHoursMinutesToTime,
+  convertTimeToHoursMinutes,
+} from "@/lib/utils";
 import InputWithLabel from "./input-with-label";
 import { Label } from "./ui/label";
 import DatePicker from "./date-picker";
 import WorkoutTypeSelect from "./workout-type-select";
 import { WorkoutType } from "@prisma/client";
 import { useToastHandler } from "@/lib/hooks";
+import { WorkoutWithType } from "@/lib/types";
 
 type WorkoutFormProps = {
+  workoutToUpdate?: WorkoutWithType;
   closeDialog: () => void;
+  closeDropdown: () => void;
 };
 
-export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
+export default function WorkoutForm({
+  workoutToUpdate,
+  closeDialog,
+  closeDropdown,
+}: WorkoutFormProps) {
   const [distance, setDistance] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -28,14 +38,31 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
 
   const { handleError, handleSuccess } = useToastHandler();
 
+  const isUpdate = workoutToUpdate !== undefined;
+
   useEffect(() => {
     const fetchWorkoutTypes = async () => {
       const res = await fetch("/api/workout-type");
       const data = await res.json();
       setWorkoutTypes(data);
-    }
+    };
     fetchWorkoutTypes();
   }, []);
+
+  useEffect(() => {
+    if (workoutToUpdate) {
+      setDistance(workoutToUpdate.distance);
+      const { hours, minutes } = convertTimeToHoursMinutes(
+        workoutToUpdate.time
+      );
+      setHours(hours);
+      setMinutes(minutes);
+      setAverageHeartRate(workoutToUpdate.averageHeartRate);
+      setCalories(workoutToUpdate.calories);
+      setDate(workoutToUpdate.date);
+      setWorkoutType(workoutToUpdate.workoutType);
+    }
+  }, [workoutToUpdate]);
 
   const setDateFn = (date?: Date) => {
     if (date) {
@@ -54,21 +81,43 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
       handleError("Please select a workout type");
       return;
     }
-    const time = convertHoursMinutesToTime({ hours, minutes });
-    const workoutData = {
-      distance,
-      time,
-      averageHeartRate,
-      calories,
-      date,
-      workoutTypeId: workoutType.id,
-    };
-    const res = await submitWorkoutForm(workoutData);
-    closeDialog();
-    if (res.status === "error") {
-      handleError(res.message);
+    if (isUpdate) {
+      const id = workoutToUpdate.id;
+      const time = convertHoursMinutesToTime({ hours, minutes });
+      const workoutData = {
+        id,
+        distance,
+        time,
+        averageHeartRate,
+        calories,
+        date,
+        workoutTypeId: workoutType.id,
+      };
+      const res = await submitWorkoutEditForm(id, workoutData);
+      closeDialog();
+      closeDropdown();
+      if (res.status === "error") {
+        handleError(res.message);
+      } else {
+        handleSuccess("Workout successfully updated");
+      }
     } else {
-      handleSuccess("Workout successfully created");
+      const time = convertHoursMinutesToTime({ hours, minutes });
+      const workoutData = {
+        distance,
+        time,
+        averageHeartRate,
+        calories,
+        date,
+        workoutTypeId: workoutType.id,
+      };
+      const res = await submitWorkoutForm(workoutData);
+      closeDialog();
+      if (res.status === "error") {
+        handleError(res.message);
+      } else {
+        handleSuccess("Workout successfully created");
+      }
     }
   };
 
@@ -85,6 +134,7 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
           <div className="grid w-full items-center gap-2 mt-8">
             <Label>Workout type</Label>
             <WorkoutTypeSelect
+              value={workoutType?.name ?? ""}
               workoutTypes={workoutTypes}
               setWorkoutType={setWorkoutTypeFn}
             />
@@ -94,6 +144,7 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
       <div className="flex flex-row gap-x-4 items-center">
         <div className="w-1/2">
           <InputWithLabel
+            value={distance}
             label="Distance (km)"
             onChange={(e) => setDistance(Number(e.target.value))}
           />
@@ -102,9 +153,15 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
           <div className="grid w-full max-w-sm items-center gap-2">
             <Label>Time</Label>
             <div className="flex flex-row items-center gap-x-2">
-              <Input onChange={(e) => setHours(Number(e.target.value))} />
+              <Input
+                onChange={(e) => setHours(Number(e.target.value))}
+                value={hours}
+              />
               <span>:</span>
-              <Input onChange={(e) => setMinutes(Number(e.target.value))} />
+              <Input
+                onChange={(e) => setMinutes(Number(e.target.value))}
+                value={minutes}
+              />
             </div>
           </div>
         </div>
@@ -112,23 +169,32 @@ export default function WorkoutForm({ closeDialog }: WorkoutFormProps) {
       <div className="flex flex-row gap-x-4 items-center">
         <div className="w-1/2">
           <InputWithLabel
+            value={averageHeartRate}
             label="Avg. heart rate (bpm)"
             onChange={(e) => setAverageHeartRate(Number(e.target.value))}
           />
         </div>
         <div className="w-1/2">
           <InputWithLabel
+            value={calories}
             label="Calories (kcal)"
             onChange={(e) => setCalories(Number(e.target.value))}
           />
         </div>
       </div>
       <div className="flex justify-end w-full mt-8 gap-x-2">
-        <Button type="button" variant="outline" onClick={closeDialog}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            closeDialog();
+            closeDropdown();
+          }}
+        >
           Cancel
         </Button>
         <Button type="submit" disabled={!workoutType}>
-          Create
+          {isUpdate ? "Update" : "Create"}
         </Button>
       </div>
     </form>

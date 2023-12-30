@@ -9,11 +9,13 @@ import {
 import { WorkoutType } from "@prisma/client";
 
 type WorkoutTypeSelectProps = {
+  value: string;
   workoutTypes: WorkoutType[];
   setWorkoutType: (workoutType?: WorkoutType) => void;
 };
 
 export default function WorkoutTypeSelect({
+  value,
   workoutTypes,
   setWorkoutType,
 }: WorkoutTypeSelectProps) {
@@ -25,7 +27,7 @@ export default function WorkoutTypeSelect({
   };
 
   return (
-    <Select onValueChange={handleValueChange}>
+    <Select onValueChange={handleValueChange} value={value}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select workout type" />
       </SelectTrigger>

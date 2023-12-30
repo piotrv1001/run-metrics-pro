@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createWorkout, createWorkoutType } from "./data";
+import { createWorkout, createWorkoutType, deleteWorkout, updateWorkout } from "./data";
 import { ServerActionResponse, WorkoutData, WorkoutTypeData } from "./types";
 
 export const submitWorkoutForm: (
@@ -11,7 +11,37 @@ export const submitWorkoutForm: (
     const data = await createWorkout(workoutData);
     revalidatePath("/workouts");
     return { status: "success", data };
-  } catch(error) {
+  } catch (error) {
+    console.error(error);
+    return { status: "error", message: "Something went wrong" };
+  }
+};
+
+export const submitWorkoutEditForm: (
+  id: number,
+  workoutData: WorkoutData
+) => Promise<ServerActionResponse> = async (
+  id: number,
+  workoutData: WorkoutData
+) => {
+  try {
+    const data = await updateWorkout(id, workoutData);
+    revalidatePath("/workouts");
+    return { status: "success", data };
+  } catch (error) {
+    console.error(error);
+    return { status: "error", message: "Something went wrong" };
+  }
+};
+
+export const deleteWorkoutAction: (
+  id: number
+) => Promise<ServerActionResponse> = async (id: number) => {
+  try {
+    const data = await deleteWorkout(id);
+    revalidatePath("/workouts");
+    return { status: "success", data };
+  } catch (error) {
     console.error(error);
     return { status: "error", message: "Something went wrong" };
   }
@@ -24,7 +54,7 @@ export const submitWorkoutTypeForm: (
     const data = await createWorkoutType(workoutData);
     revalidatePath("/categories");
     return { status: "success", data };
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     return { status: "error", message: "Something went wrong" };
   }

@@ -21,7 +21,7 @@ export default function ColorCircle({ color, selected, setSelected }: ColorCircl
     >
       <div
         className={cn(
-          "col-span-1 bg-blue-500 rounded-full w-[38px] h-[38px]",
+          "col-span-1 rounded-full w-[38px] h-[38px]",
           bgClassName
         )}
       ></div>
