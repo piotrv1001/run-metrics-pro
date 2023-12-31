@@ -27,8 +27,14 @@ export default function UpdateWorkoutFormDialog({
   const closeDialog = () => {
     setOpen(false);
   };
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      closeDropdown();
+    }
+    setOpen(open);
+  }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger className="w-full">
         <DropdownMenuItem
           onSelect={(e) => e.preventDefault()}

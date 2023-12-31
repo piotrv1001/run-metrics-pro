@@ -14,12 +14,14 @@ import { TrashIcon } from "lucide-react";
 
 type ConfirmDeleteDialogProps = {
   onConfirm: () => void;
+  onCancel: () => void;
   title?: string;
   description?: string;
 };
 
 export default function ConfirmDeleteDialog({
   onConfirm,
+  onCancel,
   title,
   description,
 }: ConfirmDeleteDialogProps) {
@@ -44,7 +46,7 @@ export default function ConfirmDeleteDialog({
           <AlertDialogDescription>{dialogDescription}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

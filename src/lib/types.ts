@@ -15,7 +15,7 @@ export type WorkoutTypeData = {
   minHeartRate: number;
   maxHeartRate: number;
   color: Color;
-}
+};
 
 export type WorkoutWithType = Workout & {
   workoutType: WorkoutType;
@@ -46,4 +46,15 @@ export type TableField = {
   headerIcon?: LucideIcon;
   prefix?: string;
   suffix?: string;
+};
+
+export type PercentageSince = "lastWeek" | "lastMonth" | "lastYear";
+
+export type DashBoardCardData = {
+  title: string;
+  displayValue: string;
+  value: number;
+  icon: LucideIcon;
+  percentageDiff: number;
+  percentageSince: PercentageSince;
 };

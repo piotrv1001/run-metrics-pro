@@ -60,6 +60,7 @@ export default function WorkoutDropdownMenu({
           title="Are you sure you want to delete this workout?"
           description="This action cannot be undone. This will permanently delete the workout data from our servers."
           onConfirm={removeWorkout}
+          onCancel={closeDropdown}
         />
       </DropdownMenuContent>
     </DropdownMenu>

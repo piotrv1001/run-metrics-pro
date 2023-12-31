@@ -8,14 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import WorkoutTable from "@/components/workout-table";
-import { fetchWorkoutsWithType } from "@/lib/data";
-import { TableField } from "@/lib/types";
-import {
-  CheckCircleIcon,
-  ClockIcon,
-  FlameIcon,
-  TrendingUpIcon,
-} from "lucide-react";
+import { fetchTotals, fetchWorkoutsWithType } from "@/lib/data";
+import { PercentageSince, TableField } from "@/lib/types";
 
 const tableFields: TableField[] = [
   { label: "Date", value: "date" },
@@ -28,36 +22,36 @@ const tableFields: TableField[] = [
   },
 ];
 
+const getSubText = (percentageDiff: number, percentageSince: PercentageSince) => {
+  const prefix = percentageDiff > 0 ? "+" : "-";
+  const subTextMap = {
+    lastMonth: "last month",
+    lastWeek: "last week",
+    lastYear: "last year",
+  };
+  const suffix = subTextMap[percentageSince];
+  if(percentageDiff === 0) {
+    return `same as ${suffix}`;
+  }
+  return `${prefix}${percentageDiff}% since${suffix}`;
+}
+
 export default async function DashboardPage() {
   const recentWorkouts = await fetchWorkoutsWithType(5);
+  const totals = await fetchTotals();
   return (
     <>
       <h1 className="text-4xl font-bold mb-14">Dashboard</h1>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <DashboardCard
-          title="Total Distance"
-          mainText="480 km"
-          subText="+20% from last month"
-          icon={TrendingUpIcon}
-        />
-        <DashboardCard
-          title="Total Time"
-          mainText="105:32"
-          subText="+5% from last month"
-          icon={ClockIcon}
-        />
-        <DashboardCard
-          title="Total Calories"
-          mainText="10,235 kcal"
-          subText="+35% from last month"
-          icon={FlameIcon}
-        />
-        <DashboardCard
-          title="Total Workouts"
-          mainText="120"
-          subText="same as last month"
-          icon={CheckCircleIcon}
-        />
+        {totals.map((total, index) => (
+          <DashboardCard
+            key={index}
+            title={total.title}
+            mainText={total.displayValue}
+            subText={getSubText(total.percentageDiff, total.percentageSince)}
+            icon={total.icon}
+          />
+        ))}
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
         <div className="col-span-4">
