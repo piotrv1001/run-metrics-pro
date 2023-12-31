@@ -1,7 +1,15 @@
 "use client";
 
+import { useIsMobile } from "@/lib/hooks";
 import React from "react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import {
+  BarChart,
+  Bar,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  LabelList,
+} from "recharts";
 
 const data = [
   {
@@ -35,6 +43,7 @@ const data = [
 ];
 
 export default function Chart() {
+  const isMobile = useIsMobile();
   return (
     <ResponsiveContainer width="100%" height={446}>
       <BarChart data={data}>
@@ -44,13 +53,17 @@ export default function Chart() {
           tickLine={false}
           tick={{ fontSize: 14 }}
         />
-        <YAxis
-          axisLine={false}
-          tickLine={false}
-          tickFormatter={(value) => `${value}km`}
-          tick={{ fontSize: 14 }}
-        />
-        <Bar dataKey="uv" fill="hsl(var(--primary))" radius={[5, 5, 0, 0]} />
+        {!isMobile && (
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            tickFormatter={(value) => `${value}km`}
+            tick={{ fontSize: 14 }}
+          />
+        )}
+        <Bar dataKey="uv" fill="hsl(var(--primary))" radius={[5, 5, 0, 0]}>
+          {isMobile && <LabelList dataKey="uv" position="top" />}
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );
