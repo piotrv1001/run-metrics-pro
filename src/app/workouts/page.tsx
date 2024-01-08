@@ -11,6 +11,7 @@ import {
   TrendingUpIcon,
 } from "lucide-react";
 import MobileTableCard from "@/components/mobile-table-card";
+import NoDataPlaceholder from "@/components/no-data-placeholder";
 
 const tableFields: TableField[] = [
   { label: "Date", value: "date", headerIcon: CalendarIcon },
@@ -43,17 +44,25 @@ export default async function WorkoutsPage() {
   return (
     <>
       <h1 className="text-4xl font-bold mb-14">Workouts</h1>
-      <div className="hidden lg:block">
-        <WorkoutTable workouts={workouts} tableFields={tableFields} />
-      </div>
-      <div className="lg:hidden flex flex-col gap-y-4">
-        {workouts.map((workout) => (
-          <MobileTableCard key={workout.id} workout={workout} />
-        ))}
-      </div>
-      <div className="mt-8 text-end">
-        <WorkoutFormDialog />
-      </div>
+      {workouts.length > 0 ? (
+        <>
+          <div className="hidden lg:block">
+            <WorkoutTable workouts={workouts} tableFields={tableFields} />
+          </div>
+          <div className="lg:hidden flex flex-col gap-y-4">
+            {workouts.map((workout) => (
+              <MobileTableCard key={workout.id} workout={workout} />
+            ))}
+          </div>
+          <div className="mt-8 text-end">
+            <WorkoutFormDialog />
+          </div>
+        </>
+      ) : (
+        <NoDataPlaceholder message="No workouts added yet">
+          <WorkoutFormDialog />
+        </NoDataPlaceholder>
+      )}
     </>
   );
 }
