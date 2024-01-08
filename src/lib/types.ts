@@ -58,3 +58,8 @@ export type DashBoardCardData = {
   percentageDiff: number;
   percentageSince: PercentageSince;
 };
+
+export type ChartData = {
+  label: string;
+  value: number;
+}

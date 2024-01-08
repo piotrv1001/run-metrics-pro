@@ -1,6 +1,7 @@
 "use client";
 
 import { useIsMobile } from "@/lib/hooks";
+import { ChartData } from "@/lib/types";
 import React from "react";
 import {
   BarChart,
@@ -11,44 +12,17 @@ import {
   LabelList,
 } from "recharts";
 
-const data = [
-  {
-    name: "Mon",
-    uv: 30,
-  },
-  {
-    name: "Tue",
-    uv: 20,
-  },
-  {
-    name: "Wed",
-    uv: 15,
-  },
-  {
-    name: "Thu",
-    uv: 22,
-  },
-  {
-    name: "Fri",
-    uv: 17,
-  },
-  {
-    name: "Sat",
-    uv: 15,
-  },
-  {
-    name: "Sun",
-    uv: 21,
-  },
-];
+type ChartProps = {
+  chartData: ChartData[];
+}
 
-export default function Chart() {
+export default function Chart({ chartData }: ChartProps) {
   const isMobile = useIsMobile();
   return (
     <ResponsiveContainer width="100%" height={446}>
-      <BarChart data={data}>
+      <BarChart data={chartData}>
         <XAxis
-          dataKey="name"
+          dataKey="label"
           axisLine={false}
           tickLine={false}
           tick={{ fontSize: 14 }}
@@ -61,8 +35,8 @@ export default function Chart() {
             tick={{ fontSize: 14 }}
           />
         )}
-        <Bar dataKey="uv" fill="hsl(var(--primary))" radius={[5, 5, 0, 0]}>
-          {isMobile && <LabelList dataKey="uv" position="top" />}
+        <Bar dataKey="value" fill="hsl(var(--primary))" radius={[5, 5, 0, 0]}>
+          {isMobile && <LabelList dataKey="value" position="top" />}
         </Bar>
       </BarChart>
     </ResponsiveContainer>

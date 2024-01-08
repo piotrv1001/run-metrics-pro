@@ -1,6 +1,7 @@
 import { Workout, WorkoutType } from "@prisma/client";
 import prisma from "./db";
 import {
+  ChartData,
   DashBoardCardData,
   WorkoutData,
   WorkoutTypeData,
@@ -115,4 +116,44 @@ export async function fetchTotals(): Promise<DashBoardCardData[]> {
     percentageSince: "lastMonth",
   };
   return [distance, time, calories, workouts];
+}
+
+export async function fetchChartData(): Promise<ChartData[]> {
+  const currentDate = new Date();
+  const oneWeekAgo = new Date();
+  currentDate.setDate(currentDate.getDate());
+  oneWeekAgo.setDate(currentDate.getDate() - 7);
+
+  const workouts = await prisma.workout.findMany({
+    where: {
+      date: {
+        gte: oneWeekAgo.toISOString(),
+        lte: currentDate.toISOString(),
+      },
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
+
+  const chartData: ChartData[] = [];
+  for(let i = 0; i < 7; i++) {
+    const currentDate = new Date(oneWeekAgo);
+    currentDate.setDate(oneWeekAgo.getDate() + i);
+    const formattedDate = currentDate.toLocaleDateString("en-US", {
+      weekday: "short",
+    });
+    chartData.push({ label: formattedDate, value: 0 });
+  }
+  workouts.forEach((workout) => {
+    const formattedDate = new Date(workout.date).toLocaleDateString("en-US", {
+      weekday: "short",
+    });
+    const chartDataIndex = chartData.findIndex((item) => item.label === formattedDate);
+    if(chartDataIndex !== -1) {
+      chartData[chartDataIndex].value += workout.distance;
+    }
+  });
+
+  return chartData;
 }
