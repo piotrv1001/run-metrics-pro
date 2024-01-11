@@ -18,8 +18,8 @@ import { WorkoutWithType } from "@/lib/types";
 
 type WorkoutFormProps = {
   workoutToUpdate?: WorkoutWithType;
+  closeDropdown?: () => void;
   closeDialog: () => void;
-  closeDropdown: () => void;
 };
 
 export default function WorkoutForm({
@@ -95,7 +95,9 @@ export default function WorkoutForm({
       };
       const res = await submitWorkoutEditForm(id, workoutData);
       closeDialog();
-      closeDropdown();
+      if(closeDropdown) {
+        closeDropdown();
+      }
       if (res.status === "error") {
         handleError(res.message);
       } else {
@@ -188,7 +190,9 @@ export default function WorkoutForm({
           variant="outline"
           onClick={() => {
             closeDialog();
-            closeDropdown();
+            if(closeDropdown) {
+              closeDropdown();
+            }
           }}
         >
           Cancel

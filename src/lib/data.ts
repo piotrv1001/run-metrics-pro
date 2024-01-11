@@ -121,8 +121,8 @@ export async function fetchTotals(): Promise<DashBoardCardData[]> {
 export async function fetchChartData(): Promise<ChartData[]> {
   const currentDate = new Date();
   const oneWeekAgo = new Date();
-  currentDate.setDate(currentDate.getDate());
-  oneWeekAgo.setDate(currentDate.getDate() - 7);
+  currentDate.setDate(currentDate.getDate() - 7);
+  oneWeekAgo.setDate(currentDate.getDate() - 14);
 
   const workouts = await prisma.workout.findMany({
     where: {
