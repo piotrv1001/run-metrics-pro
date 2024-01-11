@@ -1,10 +1,10 @@
 import NoDataPlaceholder from "@/components/no-data-placeholder";
 import WorkoutTypeCard from "@/components/workout-type-card";
 import WorkoutTypeFormDialog from "@/components/workout-type-form-dialog";
-import prisma from "@/lib/db";
+import { fetchWorkoutTypes } from "@/lib/data";
 
 export default async function CategoriesPage() {
-  const workoutTypes = await prisma.workoutType.findMany();
+  const workoutTypes = await fetchWorkoutTypes();
   return (
     <>
       <h1 className="text-4xl font-bold mb-14">Workout types</h1>

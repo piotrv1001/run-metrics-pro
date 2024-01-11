@@ -21,6 +21,7 @@ model Workout {
   workoutTypeId    Int
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
+  userId           String
 }
 
 model WorkoutType {
@@ -32,6 +33,7 @@ model WorkoutType {
   updatedAt    DateTime  @updatedAt
   color        Color
   workouts     Workout[]
+  userId       String
 }
 
 enum Color {
