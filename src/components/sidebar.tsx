@@ -1,31 +1,10 @@
 "use client";
 
-import { BarChart4, DatabaseIcon, LayoutDashboard } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-
-const routes = [
-  {
-    label: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/dashboard",
-    color: "text-sky-500",
-  },
-  {
-    label: "Workouts",
-    icon: BarChart4,
-    href: "/workouts",
-    color: "text-emerald-500",
-  },
-  {
-    label: "Workout types",
-    icon: DatabaseIcon,
-    href: "/categories",
-    color: "text-purple-500",
-  },
-];
+import { routes } from "@/lib/constants";
 
 export default function Sidebar() {
   const pathName = usePathname();
