@@ -8,6 +8,8 @@ import {
   TrophyIcon,
 } from "lucide-react";
 
+export const GUEST_USER_ID = "guest";
+
 export const MARATHON_DISTANCE_KM = 42.195;
 
 export const routes = [
