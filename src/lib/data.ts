@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { convertTimeToHoursMinutes } from "./utils";
 import { auth } from "@clerk/nextjs";
+import { GUEST_USER_ID, guestChartData } from "./constants";
 
 export async function fetchWorkouts(): Promise<Workout[]> {
   const { userId } = auth();
@@ -31,9 +32,9 @@ export async function fetchWorkouts(): Promise<Workout[]> {
 export async function fetchWorkoutsWithType(
   limit?: number
 ): Promise<WorkoutWithType[]> {
-  const { userId } = auth();
+  let { userId } = auth();
   if (!userId) {
-    throw new Error("User not found");
+    userId = GUEST_USER_ID;
   }
   const workouts = await prisma.workout.findMany({
     where: { userId },
@@ -52,9 +53,9 @@ export async function fetchWorkout(id: number): Promise<Workout | null> {
 }
 
 export async function createWorkout(data: WorkoutData): Promise<Workout> {
-  const { userId } = auth();
+  let { userId } = auth();
   if (!userId) {
-    throw new Error("User not found");
+    userId = GUEST_USER_ID;
   }
   const workout = await prisma.workout.create({ data: { ...data, userId } });
   return workout;
@@ -79,9 +80,9 @@ export async function deleteWorkout(id: number): Promise<Workout> {
 }
 
 export async function fetchWorkoutTypes(): Promise<WorkoutType[]> {
-  const { userId } = auth();
+  let { userId } = auth();
   if (!userId) {
-    throw new Error("User not found");
+    userId = GUEST_USER_ID;
   }
   const workoutTypes = await prisma.workoutType.findMany({
     where: { userId },
@@ -92,18 +93,18 @@ export async function fetchWorkoutTypes(): Promise<WorkoutType[]> {
 export async function createWorkoutType(
   data: WorkoutTypeData
 ): Promise<WorkoutType> {
-  const { userId } = auth();
+  let { userId } = auth();
   if (!userId) {
-    throw new Error("User not found");
+    userId = GUEST_USER_ID;
   }
   const workoutType = await prisma.workoutType.create({ data: { ...data, userId } });
   return workoutType;
 }
 
 export async function fetchTotals(): Promise<DashBoardCardData[]> {
-  const { userId } = auth();
+  let { userId } = auth();
   if (!userId) {
-    throw new Error("User not found");
+    userId = GUEST_USER_ID;
   }
   const totals = await prisma.workout.aggregate({
     where: { userId },
@@ -149,9 +150,9 @@ export async function fetchTotals(): Promise<DashBoardCardData[]> {
 }
 
 export async function fetchChartData(): Promise<ChartData[]> {
-  const { userId } = auth();
+  let { userId } = auth();
   if (!userId) {
-    throw new Error("User not found");
+    return guestChartData;
   }
   const currentDate = new Date();
   const oneWeekAgo = new Date();

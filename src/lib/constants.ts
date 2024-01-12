@@ -75,3 +75,35 @@ export const activityLevels = [
   { value: 1.725, label: "Very active" },
   { value: 1.9, label: "Extremely active" },
 ] as const;
+
+// To make it look nice in the demo, the functionality works but the data is time-sensitive
+export const guestChartData = [
+  {
+    label: "Mon",
+    value: 30,
+  },
+  {
+    label: "Tue",
+    value: 20,
+  },
+  {
+    label: "Wed",
+    value: 15,
+  },
+  {
+    label: "Thu",
+    value: 22,
+  },
+  {
+    label: "Fri",
+    value: 17,
+  },
+  {
+    label: "Sat",
+    value: 15,
+  },
+  {
+    label: "Sun",
+    value: 21,
+  },
+];

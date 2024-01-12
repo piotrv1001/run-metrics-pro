@@ -55,6 +55,18 @@ export default function LandingPage() {
           </SignedOut>
         </div>
       </main>
+      <footer className="fixed bottom-0 p-4">
+        <small className="text-white">
+          Photo by{" "}
+          <a href="https://diego.cool" target="_blank" className="underline">
+            Diego Jimenez
+          </a>{" "}
+          on{" "}
+          <a href="https://unsplash.com/?utm_source=run_metrics_pro&utm_medium=referral" target="_blank" className="underline">
+            Unsplash
+          </a>
+        </small>
+      </footer>
     </>
   );
 }
