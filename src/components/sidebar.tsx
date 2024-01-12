@@ -1,22 +1,19 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { routes } from "@/lib/constants";
+import Logo from "./logo";
 
 export default function Sidebar() {
   const pathName = usePathname();
   return (
     <div className="space-y-4 py-4 flex flex-col h-full">
       <div className="px-3 py-2 flex-1">
-        <Link href="/dashboard" className="flex items-center pl-3 mb-14">
-          <div className="relative w-8 h-8 mr-4">
-            <Image fill alt="Logo" src="/logo.png" priority />
-          </div>
-          <h1 className="text-2xl font-bold">RunMetricsPro</h1>
-        </Link>
+        <div className="mb-14">
+          <Logo />
+        </div>
         <div className="space-y-1">
           {routes.map((route) => (
             <Link
