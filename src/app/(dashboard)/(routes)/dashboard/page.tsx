@@ -75,13 +75,18 @@ export default async function DashboardPage() {
               <CardDescription>Your last 5 running sessions</CardDescription>
             </CardHeader>
             <CardContent>
-              <WorkoutTable
+              {recentWorkouts.length > 0 ? (
+                <WorkoutTable
                 workouts={recentWorkouts}
                 tableFields={tableFields}
                 hideCaption={true}
                 hideHeader={true}
                 hideDropdownMenu={true}
               />
+              ) : (
+                <div className="h-[446px]"></div>
+              )}
+              
             </CardContent>
           </Card>
         </div>

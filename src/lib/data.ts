@@ -130,7 +130,7 @@ export async function fetchTotals(): Promise<DashBoardCardData[]> {
   };
   const distance: DashBoardCardData = {
     title: "Total distance",
-    displayValue: totals._sum.distance?.toString() + " km" ?? "0 km",
+    displayValue: totals._sum.distance?.toString() ? totals._sum.distance.toString() + " km" : "0 km",
     value: totals._sum.distance ?? 0,
     icon: CheckCircleIcon,
     percentageDiff: 0,

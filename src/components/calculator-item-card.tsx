@@ -24,7 +24,7 @@ export default function CalculatorItemCard({
     <Link href={link}>
       <Card className="hover:bg-accent transition group">
         <CardContent className="p-0">
-          <div className="flex gap-x-4 p-4 md:p-6 items-center">
+          <div className="flex gap-x-4 md:gap-x-6 p-4 md:p-6 items-center">
             <div className={cn("w-14 h-14 rounded-full flex justify-center items-center", bgColor)}>
               <Icon size={26} className={color} />
             </div>

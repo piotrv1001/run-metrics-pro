@@ -24,7 +24,7 @@ export default function Sidebar() {
               href={route.href}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-accent-foreground hover:bg-accent rounded-lg transition",
-                pathName === route.href
+                pathName.startsWith(route.href)
                   ? "text-accent-foreground bg-accent"
                   : "text-zinc-400"
               )}
