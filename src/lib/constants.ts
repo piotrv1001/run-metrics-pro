@@ -40,19 +40,21 @@ export const routes = [
 export const calculatorItems = [
   {
     title: "Marathon target time",
-    description: "Calculate the average pace per km for your marathon target time",
+    description:
+      "Calculate the average pace per km for your marathon target time",
     icon: TrophyIcon,
     link: "/calculator/marathon",
     color: "text-yellow-500",
-    bgColor: "dark:bg-yellow-900 bg-yellow-100"
+    bgColor: "dark:bg-yellow-900 bg-yellow-100",
   },
   {
     title: "Daily calorie intake",
-    description: "Calculate your target calorie intake per day based on your activity level",
+    description:
+      "Calculate your target calorie intake per day based on your activity level",
     icon: CitrusIcon,
     link: "/calculator/calories",
     color: "text-red-500",
-    bgColor: "dark:bg-red-900 bg-red-100"
+    bgColor: "dark:bg-red-900 bg-red-100",
   },
   {
     title: "1 Rep Max (1RM)",
@@ -60,6 +62,14 @@ export const calculatorItems = [
     icon: DumbbellIcon,
     link: "/calculator/one-rep-max",
     color: "text-green-500",
-    bgColor: "dark:bg-green-900 bg-green-100"
-  }
-]
+    bgColor: "dark:bg-green-900 bg-green-100",
+  },
+];
+
+export const activityLevels = [
+  { value: 1.2, label: "Sedentary" },
+  { value: 1.375, label: "Lightly active" },
+  { value: 1.55, label: "Moderately active" },
+  { value: 1.725, label: "Very active" },
+  { value: 1.9, label: "Extremely active" },
+] as const;

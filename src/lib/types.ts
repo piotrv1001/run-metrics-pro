@@ -1,5 +1,6 @@
 import { Color, Workout, WorkoutType } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
+import { activityLevels } from "./constants";
 
 export type WorkoutData = {
   distance: number;
@@ -62,4 +63,8 @@ export type DashBoardCardData = {
 export type ChartData = {
   label: string;
   value: number;
-}
+};
+
+export type ActivityLevel = (typeof activityLevels)[number]["value"];
+
+export type ActivityLevelLabel = (typeof activityLevels)[number]["label"];
