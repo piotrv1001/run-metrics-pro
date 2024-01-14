@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import WorkoutTable from "@/components/workout-table";
-import { fetchChartData, fetchTotals, fetchWorkoutsWithType } from "@/lib/data";
+import { fetchChartData, fetchDashboardData, fetchTotals, fetchWorkoutsWithType } from "@/lib/data";
 import { PercentageSince, TableField } from "@/lib/types";
 
 const tableFields: TableField[] = [
@@ -37,9 +37,7 @@ const getSubText = (percentageDiff: number, percentageSince: PercentageSince) =>
 }
 
 export default async function DashboardPage() {
-  const recentWorkouts = await fetchWorkoutsWithType(5);
-  const totals = await fetchTotals();
-  const chartData = await fetchChartData();
+  const { recentWorkouts, totals, chartData } = await fetchDashboardData();
   return (
     <>
       <h1 className="text-4xl font-bold mb-14">Dashboard</h1>

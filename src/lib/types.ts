@@ -2,6 +2,12 @@ import { Color, Workout, WorkoutType } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 import { activityLevels } from "./constants";
 
+export type DashboardData = {
+  recentWorkouts: WorkoutWithType[];
+  totals: DashBoardCardData[];
+  chartData: ChartData[];
+};
+
 export type WorkoutData = {
   distance: number;
   time: number;

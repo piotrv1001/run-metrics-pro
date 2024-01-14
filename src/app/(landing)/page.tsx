@@ -39,7 +39,7 @@ export default function LandingPage() {
           Track your pace, analyze performance, and run smarter towards your
           personal best. Your journey to peak performance starts here.
         </p>
-        <div className="flex gap-x-8 mt-20">
+        <div className="flex gap-x-6 sm:gap-x-8 mt-20">
           <SignedIn>
             <Link href="/dashboard">
               <PrimaryButton text="Dashboard" />
@@ -73,7 +73,7 @@ export default function LandingPage() {
 
 const PrimaryButton = ({ text }: { text: string }) => {
   return (
-    <button className="min-w-[180px] rounded-lg bg-white/20 px-4 py-2 border-white border hover:bg-white/30 transition group flex items-center justify-around">
+    <button className="text-sm sm:text-base min-w-[150px] sm:min-w-[180px] rounded-lg bg-white/20 px-2 sm:px-4 py-2 border-white border hover:bg-white/30 transition group flex items-center justify-around">
       <span>{text}</span>
       <ArrowRightIcon
         size={26}

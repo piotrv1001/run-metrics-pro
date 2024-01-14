@@ -3,6 +3,7 @@ import prisma from "./db";
 import {
   ChartData,
   DashBoardCardData,
+  DashboardData,
   WorkoutData,
   WorkoutTypeData,
   WorkoutWithType,
@@ -17,24 +18,34 @@ import { convertTimeToHoursMinutes } from "./utils";
 import { auth } from "@clerk/nextjs";
 import { GUEST_USER_ID, guestChartData } from "./constants";
 
-export async function fetchWorkouts(): Promise<Workout[]> {
-  const { userId } = auth();
+export async function fetchDashboardData(): Promise<DashboardData> {
+  let isGuest = false;
+  let { userId } = auth();
   if (!userId) {
-    throw new Error("User not found");
+    isGuest = true;
   }
-  const workouts = await prisma.workout.findMany({
-    where: { userId },
-    orderBy: { date: "desc" },
-  });
-  return workouts;
+  const [recentWorkouts, totals, chartData] = await Promise.all([
+    fetchWorkoutsWithType(isGuest, 5),
+    fetchTotals(isGuest),
+    fetchChartData(isGuest),
+  ]);
+  return { recentWorkouts, totals, chartData };
 }
 
 export async function fetchWorkoutsWithType(
+  isGuest = false,
   limit?: number
 ): Promise<WorkoutWithType[]> {
-  let { userId } = auth();
-  if (!userId) {
+  let userId;
+  if (isGuest) {
     userId = GUEST_USER_ID;
+  } else {
+    let { userId: clerkUserId } = auth();
+    if (!clerkUserId) {
+      userId = GUEST_USER_ID;
+    } else {
+      userId = clerkUserId;
+    }
   }
   const workouts = await prisma.workout.findMany({
     where: { userId },
@@ -97,14 +108,23 @@ export async function createWorkoutType(
   if (!userId) {
     userId = GUEST_USER_ID;
   }
-  const workoutType = await prisma.workoutType.create({ data: { ...data, userId } });
+  const workoutType = await prisma.workoutType.create({
+    data: { ...data, userId },
+  });
   return workoutType;
 }
 
-export async function fetchTotals(): Promise<DashBoardCardData[]> {
-  let { userId } = auth();
-  if (!userId) {
+export async function fetchTotals(isGuest = false): Promise<DashBoardCardData[]> {
+  let userId;
+  if (isGuest) {
     userId = GUEST_USER_ID;
+  } else {
+    let { userId: clerkUserId } = auth();
+    if (!clerkUserId) {
+      userId = GUEST_USER_ID;
+    } else {
+      userId = clerkUserId;
+    }
   }
   const totals = await prisma.workout.aggregate({
     where: { userId },
@@ -131,7 +151,9 @@ export async function fetchTotals(): Promise<DashBoardCardData[]> {
   };
   const distance: DashBoardCardData = {
     title: "Total distance",
-    displayValue: totals._sum.distance?.toString() ? totals._sum.distance.toString() + " km" : "0 km",
+    displayValue: totals._sum.distance?.toString()
+      ? totals._sum.distance.toString() + " km"
+      : "0 km",
     value: totals._sum.distance ?? 0,
     icon: CheckCircleIcon,
     percentageDiff: 0,
@@ -149,10 +171,17 @@ export async function fetchTotals(): Promise<DashBoardCardData[]> {
   return [distance, time, calories, workouts];
 }
 
-export async function fetchChartData(): Promise<ChartData[]> {
-  let { userId } = auth();
-  if (!userId) {
+export async function fetchChartData(isGuest = false): Promise<ChartData[]> {
+  let userId;
+  if (isGuest) {
     return guestChartData;
+  } else {
+    let { userId: clerkUserId } = auth();
+    if (!clerkUserId) {
+      userId = GUEST_USER_ID;
+    } else {
+      userId = clerkUserId;
+    }
   }
   const currentDate = new Date();
   const oneWeekAgo = new Date();
